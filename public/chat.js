@@ -17,12 +17,16 @@ btn.addEventListener('click', function() {
 	});
 });
 
-message.addEventListener('keypress', function() {
-	socket.emit('typing', handle.value);
-});
-
-message.addEventListener('enter', function() {
-	socket.emit('typing', handle.value);
+message.addEventListener('keypress', function(e) {
+    var key = e.which || e.keyCode;
+    if(key === 13) {
+		socket.emit('chat', {
+			message: message.value,
+			handle: handle.value
+		});
+    } else {
+		socket.emit('typing', handle.value);
+	}
 });
 
 // Listen for events
